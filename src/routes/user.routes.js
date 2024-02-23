@@ -66,4 +66,54 @@ router.post('/register', async (req, res) => {
   }
 });
 
+router.get('/profile', isLoggedIn, async (req, res) => {
+  try {
+    const user = await User.findById({ _id: req.user._id }).select('-_id');
+
+    return res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.put('/update', isLoggedIn, async (req, res) => {
+  try {
+    const { name, lastName, username, password } = req.body;
+
+    const users = await User.find({});
+    let userAlreadyExists = users.some((user) => user.username === username);
+
+    if (userAlreadyExists) {
+      return res
+        .status(400)
+        .json({ message: 'Username already in use, use another' });
+    }
+
+    await User.findOneAndUpdate(
+      { _id: req.user._id },
+      {
+        name,
+        lastName,
+        username,
+        password: await hashPassword(password),
+      },
+      { new: true },
+    );
+
+    return res.json({ message: 'Profile updated' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+router.delete('/delete', isLoggedIn, async (req, res) => {
+  try {
+    await User.findOneAndDelete({ _id: req.user._id });
+
+    return res.json({ message: 'Profile deleted' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 export default router;
