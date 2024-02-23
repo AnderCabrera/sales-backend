@@ -70,7 +70,7 @@ router.put(
         { new: true },
       );
 
-      return res.json({ message: 'Course updated' });
+      return res.json({ message: 'Product updated' });
     } catch (error) {
       res.status(500).json({ message: error.message });
     }

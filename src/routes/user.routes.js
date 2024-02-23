@@ -99,8 +99,8 @@ router.put('/update', isLoggedIn, async (req, res) => {
       {
         name,
         lastName,
-        username,
-        password: await hashPassword(password),
+        // username,
+        // password: await hashPassword(password),
       },
       { new: true },
     );
