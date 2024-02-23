@@ -11,6 +11,7 @@ import User from './models/user.model.js';
 
 // Routes
 import userRoutes from './routes/user.routes.js';
+import adminRoutes from './routes/admin.routes.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -24,6 +25,7 @@ app.use(morgan('dev'));
 
 // Routes
 app.use('/user', userRoutes);
+app.use('/admin', adminRoutes);
 
 // Connection
 connection()
