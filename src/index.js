@@ -5,6 +5,8 @@ import morgan from 'morgan';
 import connection from './db/mongo.js';
 import 'dotenv/config';
 
+import userRoutes from './routes/user.routes.js';
+
 const app = express();
 const PORT = process.env.PORT || 4000;
 
@@ -16,6 +18,7 @@ app.use(helmet());
 app.use(morgan('dev'));
 
 // Routes
+app.use('/user', userRoutes);
 
 // Connection
 connection().then(() => {
