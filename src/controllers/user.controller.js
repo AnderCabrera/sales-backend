@@ -143,3 +143,45 @@ export const deleteUser = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const getCart = async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.user._id }).populate({
+      path: 'cart.product',
+      select: 'name price',
+    });
+
+    return res.json(user.cart);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// TODO: fix quantity
+export const addTocart = async (req, res) => {
+  try {
+    const { productId, quantity } = req.body;
+
+    const user = await User.findOne({ _id: req.user._id });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    let productIndex = user.cart.findIndex(
+      (product) => product.product.toString() === productId,
+    );
+
+    if (productIndex !== -1) {
+      user.cart[productIndex].quantity += quantity;
+    } else {
+      user.cart.push({ product: productId, quantity });
+    }
+
+    await user.save();
+
+    return res.json({ message: 'Product added to cart' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

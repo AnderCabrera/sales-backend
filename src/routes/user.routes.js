@@ -9,6 +9,8 @@ import {
   update,
   deleteUser,
   updatePassword,
+  getCart,
+  addTocart,
 } from '../controllers/user.controller.js';
 
 const router = express.Router();
@@ -19,5 +21,9 @@ router.get('/profile', isLoggedIn, profile);
 router.put('/update', isLoggedIn, update);
 router.put('/update/password', isLoggedIn, updatePassword);
 router.delete('/delete', isLoggedIn, deleteUser);
+
+// Cart
+router.get('/cart', isLoggedIn, getCart);
+router.post('/cart', isLoggedIn, addTocart);
 
 export default router;
