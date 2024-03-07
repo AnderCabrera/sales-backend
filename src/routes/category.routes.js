@@ -3,14 +3,34 @@ import { isLoggedIn } from '../middlewares/isLoggedIn.js';
 import { isAdmin } from '../middlewares/isAdmin.js';
 
 // Controllers
-import { addCategory } from '../controllers/category.controller.js';
+import {
+  getCategories,
+  addCategory,
+  updateCategory,
+  deleteCategory,
+} from '../controllers/category.controller.js';
 
 const router = express.Router();
 
+router.get(
+  '/categories',
+  /*[isLoggedIn, isAdmin],*/
+  getCategories,
+);
 router.post(
   '/add/category',
   /*[isLoggedIn, isAdmin],*/
   addCategory,
+);
+router.put(
+  '/update/category/:id',
+  /*[isLoggedIn, isAdmin],*/
+  updateCategory,
+);
+router.delete(
+  '/delete/category/:id',
+  /*[isLoggedIn, isAdmin],*/
+  deleteCategory,
 );
 
 export default router;
