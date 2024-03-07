@@ -8,7 +8,8 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "dev": "nodemon ./src/index.js",
     "format": "prettier --write \"{src,tests}/**/*.js\"",
-    "prepare": "husky"
+    "prepare": "husky",
+    "add": "git add ."
   },
   "repository": {
     "type": "git",
