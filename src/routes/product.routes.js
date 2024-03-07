@@ -17,7 +17,7 @@ router.post(
   addProduct,
 );
 router.put(
-  '/update/product/:productName',
+  '/update/product/:productId',
   /*[isLoggedIn, isAdmin],*/
   updateProduct,
 );

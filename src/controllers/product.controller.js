@@ -1,15 +1,25 @@
 import Product from '../models/product.model.js';
+import Category from '../models/category.model.js';
 import { hashPassword, comparePassword } from '../helpers/bcrypt.js';
 import { generateToken } from '../helpers/jwt.js';
-import { isLoggedIn } from '../middlewares/isLoggedIn.js';
-import { isAdmin } from '../middlewares/isAdmin.js';
 
 export const addProduct = async (req, res) => {
   try {
     let { name, description, price, stock, category } = req.body;
 
+    const categories = await Category.find({});
+    const categoryExists = await Category.findOne({ name: category });
+
+    if (!categoryExists) {
+      return res.status(400).json({
+        message: 'Category not found',
+        categoriesAvailable: categories.map((category) => category.name),
+      });
+    }
+
     const products = await Product.find({});
-    let productAlreadyExists = products.some(
+
+    const productAlreadyExists = products.some(
       (product) => product.name === name,
     );
 
@@ -34,7 +44,7 @@ export const addProduct = async (req, res) => {
       description,
       price,
       stock,
-      category,
+      category: categoryExists._id,
     });
 
     await newProduct.save();
@@ -47,20 +57,46 @@ export const addProduct = async (req, res) => {
 
 export const updateProduct = async (req, res) => {
   try {
-    const { productName } = req.params;
+    const { productId } = req.params;
     const { name, description, price, stock, category } = req.body;
 
-    const productToUpdate = await Product.findOne({ name: productName });
+    const productToUpdate = await Product.findById(productId);
 
     if (!productToUpdate) {
       return res.status(404).json({ message: 'Product not found' });
     }
 
-    await Product.findOneAndUpdate(
-      { name: productName },
-      { name, description, price, stock, category },
-      { new: true },
-    );
+    if (category) {
+      const categories = await Category.find({});
+      const categoryExists = await Category.findOne({ name: category });
+
+      if (!categoryExists) {
+        return res.status(400).json({
+          message: 'Category does not exist',
+          categoriesAvailable: categories.map((category) => category.name),
+        });
+      }
+
+      productToUpdate.category = categoryExists._id;
+    }
+
+    if (name) {
+      productToUpdate.name = name;
+    }
+
+    if (description) {
+      productToUpdate.description = description;
+    }
+
+    if (price) {
+      productToUpdate.price = price;
+    }
+
+    if (stock) {
+      productToUpdate.stock = stock;
+    }
+
+    await productToUpdate.save();
 
     return res.json({ message: 'Product updated' });
   } catch (error) {

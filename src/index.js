@@ -8,6 +8,8 @@ import 'dotenv/config';
 
 // Models
 import User from './models/user.model.js';
+import Product from './models/product.model.js';
+import Category from './models/category.model.js';
 
 // Routes
 import userRoutes from './routes/user.routes.js';
@@ -45,6 +47,63 @@ connection()
 
     if (users.length === 0) {
       await admin.save();
+    }
+  })
+  .then(async () => {
+    // Create categories
+    const categories = await Category.find({});
+
+    if (categories.length === 0) {
+      const newCategories = [
+        { name: 'Electronics' },
+        { name: 'Clothing' },
+        { name: 'Sports' },
+        { name: 'Home' },
+        { name: 'Technology' },
+      ];
+
+      await Category.insertMany(newCategories);
+    }
+  })
+  .then(async () => {
+    // Create products
+    const products = await Product.find({});
+
+    if (products.length === 0) {
+      const newProducts = [
+        {
+          name: 'Laptop',
+          description: 'A laptop',
+          price: 1000,
+          stock: 10,
+          category: await Category.findOne({ name: 'Electronics' }).select(
+            '_id',
+          ),
+        },
+        {
+          name: 'T-shirt',
+          description: 'A t-shirt',
+          price: 20,
+          stock: 100,
+          category: await Category.findOne({ name: 'Clothing' }).select('_id'),
+        },
+        {
+          name: 'Soccer ball',
+          description: 'A soccer ball',
+          price: 50,
+          stock: 50,
+          category: await Category.findOne({ name: 'Sports' }).select('_id'),
+        },
+        {
+          name: 'Chair',
+          description: 'A chair',
+          price: 100,
+          stock: 20,
+          category: await Category.findOne({ name: 'Home' }).select('_id'),
+        },
+      ];
+
+      await Product.insertMany(newProducts);
     }
   })
   .then(() => {
