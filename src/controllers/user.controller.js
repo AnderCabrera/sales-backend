@@ -80,29 +80,55 @@ export const profile = async (req, res) => {
 
 export const update = async (req, res) => {
   try {
-    const { name, lastName, username, password } = req.body;
+    const { name, lastName, username } = req.body;
 
-    const users = await User.find({});
-    let userAlreadyExists = users.some((user) => user.username === username);
+    const user = await User.findOne({ _id: req.user._id });
 
-    if (userAlreadyExists) {
-      return res
-        .status(400)
-        .json({ message: 'Username already in use, use another' });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
     }
 
-    await User.findOneAndUpdate(
-      { _id: req.user._id },
-      {
-        name,
-        lastName,
-        // username,
-        // password: await hashPassword(password),
-      },
-      { new: true },
-    );
+    if (name) {
+      user.name = name;
+    }
+
+    if (lastName) {
+      user.lastName = lastName;
+    }
+
+    if (username) {
+      user.username = username;
+    }
+
+    await user.save();
 
     return res.json({ message: 'Profile updated' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const updatePassword = async (req, res) => {
+  try {
+    const { oldPassword, newPassword } = req.body;
+
+    const user = await User.findOne({ _id: req.user._id });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const isPasswordValid = await comparePassword(oldPassword, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid password' });
+    }
+
+    user.password = await hashPassword(newPassword);
+
+    await user.save();
+
+    return res.json({ message: 'Password updated' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -23,12 +23,12 @@ router.post(
   addCategory,
 );
 router.put(
-  '/update/category/:id',
+  '/update/category/:categoryId',
   /*[isLoggedIn, isAdmin],*/
   updateCategory,
 );
 router.delete(
-  '/delete/category/:id',
+  '/delete/category/:categoryId',
   /*[isLoggedIn, isAdmin],*/
   deleteCategory,
 );

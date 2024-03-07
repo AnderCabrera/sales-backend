@@ -1,7 +1,15 @@
 import Product from '../models/product.model.js';
 import Category from '../models/category.model.js';
-import { hashPassword, comparePassword } from '../helpers/bcrypt.js';
-import { generateToken } from '../helpers/jwt.js';
+
+export const getProducts = async (req, res) => {
+  try {
+    const products = await Product.find({}).populate('category', 'name');
+
+    return res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 export const addProduct = async (req, res) => {
   try {
@@ -106,15 +114,15 @@ export const updateProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
   try {
-    const { productName } = req.params;
+    const { productId } = req.params;
 
-    const productToDelete = await Product.findOne({ name: productName });
+    const productToDelete = await Product.findById(productId);
 
     if (!productToDelete) {
-      return res.status(404).json({ message: 'Course not found' });
+      return res.status(404).json({ message: 'Product not found' });
     }
 
-    await Product.findOneAndDelete({ name: productName });
+    await Product.findOneAndDelete(productId);
 
     return res.json({ message: 'Course deleted' });
   } catch (error) {

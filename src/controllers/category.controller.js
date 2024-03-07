@@ -37,10 +37,11 @@ export const addCategory = async (req, res) => {
 
 export const updateCategory = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { categoryId } = req.params;
     const { name } = req.body;
 
-    const categoryExists = await Category.findById(id);
+    const categoryExists = await Category.findById(categoryId);
+    const categoryWithSameName = await Category.findOne({ name });
 
     if (!categoryExists) {
       return res.status(404).json({
@@ -48,9 +49,17 @@ export const updateCategory = async (req, res) => {
       });
     }
 
-    await Category.findByIdAndUpdate(id, { name }, { new: true });
+    if (categoryWithSameName) {
+      return res.status(400).json({
+        message: 'Category already exists',
+      });
+    }
 
-    return res.status(200).send('Category updated succesfully');
+    await Category.findByIdAndUpdate(categoryId, { name }, { new: true });
+
+    return res.status(200).json({
+      message: 'Category updated succesfully',
+    });
   } catch (error) {
     return res.status(500).send(error.message);
   }
@@ -58,9 +67,9 @@ export const updateCategory = async (req, res) => {
 
 export const deleteCategory = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { categoryId } = req.params;
 
-    const categoryExists = await Category.findById(id);
+    const categoryExists = await Category.findById(categoryId);
 
     if (!categoryExists) {
       return res.status(404).json({
@@ -68,7 +77,9 @@ export const deleteCategory = async (req, res) => {
       });
     }
 
-    const products = await Product.find({ category: id }).populate('category');
+    const products = await Product.find({ category: categoryId }).populate(
+      'category',
+    );
 
     if (products.length > 0) {
       return res.status(400).json({
@@ -77,7 +88,7 @@ export const deleteCategory = async (req, res) => {
       });
     }
 
-    await Category.findByIdAndDelete(id);
+    await Category.findByIdAndDelete(categoryId);
 
     return res.status(200).send('Category deleted succesfully');
   } catch (error) {
