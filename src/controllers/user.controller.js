@@ -3,8 +3,6 @@ import Product from '../models/product.model.js';
 import Purchase from '../models/purchase.model.js';
 import { hashPassword, comparePassword } from '../helpers/bcrypt.js';
 import { generateToken } from '../helpers/jwt.js';
-import { isLoggedIn } from '../middlewares/isLoggedIn.js';
-import { populate } from 'dotenv';
 
 export const login = async (req, res) => {
   try {
@@ -325,6 +323,29 @@ export const purchase = async (req, res) => {
     await user.save();
 
     return res.json({ message: 'Purchase completed' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getPurchases = async (req, res) => {
+  try {
+    const purchases = await Purchase.find({ user: req.user._id })
+      .select('-_id -user')
+      .populate({
+        path: 'products',
+        select: '-_id',
+        populate: {
+          path: 'product',
+          select: '-_id',
+          populate: {
+            path: 'category',
+            select: '-_id',
+          },
+        },
+      });
+
+    return res.json(purchases);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

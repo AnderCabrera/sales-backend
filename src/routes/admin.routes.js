@@ -1,14 +1,16 @@
 import express from 'express';
-import Product from '../models/product.model.js';
 import productRoutes from './product.routes.js';
 import categoryRoutes from './category.routes.js';
-import { hashPassword, comparePassword } from '../helpers/bcrypt.js';
-import { generateToken } from '../helpers/jwt.js';
+import { isAdmin } from '../middlewares/isAdmin.js';
 import { isLoggedIn } from '../middlewares/isLoggedIn.js';
+
+import { getAllPurchases } from '../controllers/admin.controller.js';
 
 const router = express.Router();
 
 router.use(productRoutes);
 router.use(categoryRoutes);
+
+router.get('/all/purchases', [isLoggedIn, isAdmin], getAllPurchases);
 
 export default router;

@@ -13,6 +13,7 @@ import {
   addTocart,
   purchase,
   removeFromCart,
+  getPurchases,
 } from '../controllers/user.controller.js';
 
 const router = express.Router();
@@ -29,5 +30,8 @@ router.get('/cart', isLoggedIn, getCart);
 router.post('/cart', isLoggedIn, addTocart);
 router.post('/cart/purchase', isLoggedIn, purchase);
 router.delete('/cart/delete/:productId', isLoggedIn, removeFromCart);
+
+// Purchases
+router.get('/purchases', isLoggedIn, getPurchases);
 
 export default router;
