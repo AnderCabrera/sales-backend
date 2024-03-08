@@ -6,6 +6,7 @@ import { isAdmin } from '../middlewares/isAdmin.js';
 import {
   getProducts,
   searchProducts,
+  getProductsByCategory,
   addProduct,
   updateProduct,
   deleteProduct,
@@ -15,6 +16,7 @@ const router = express.Router();
 
 router.get('/products', isLoggedIn, getProducts);
 router.post('/search/products', isLoggedIn, searchProducts);
+router.get('/products/:categoryName', isLoggedIn, getProductsByCategory);
 router.post('/add/product', [isLoggedIn, isAdmin], addProduct);
 router.put('/update/product/:productId', [isLoggedIn, isAdmin], updateProduct);
 router.delete(
