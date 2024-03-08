@@ -9,6 +9,7 @@ import {
   downloadPurchases,
   modifyUserClient,
   getAllUsers,
+  deleteUser,
 } from '../controllers/admin.controller.js';
 
 const router = express.Router();
@@ -21,5 +22,6 @@ router.get('/all/purchases', [isLoggedIn, isAdmin], getAllPurchases);
 // TODO: fix permissions
 router.get('/download/purchases/:id', [isLoggedIn], downloadPurchases);
 router.put('/modify/user/:id', [isLoggedIn, isAdmin], modifyUserClient);
+router.delete('/delete/user/:id', [isLoggedIn, isAdmin], deleteUser);
 
 export default router;
