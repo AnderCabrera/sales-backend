@@ -1,5 +1,7 @@
 import express from 'express';
 import { isLoggedIn } from '../middlewares/isLoggedIn.js';
+import productsRoutes from './product.routes.js';
+import categoryRoutes from './category.routes.js';
 
 // Controllers
 import {
@@ -17,6 +19,9 @@ import {
 } from '../controllers/user.controller.js';
 
 const router = express.Router();
+
+router.use(productsRoutes);
+router.use(categoryRoutes);
 
 router.post('/login', login);
 router.post('/register', register);

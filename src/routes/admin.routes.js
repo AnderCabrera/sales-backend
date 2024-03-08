@@ -15,6 +15,7 @@ router.use(productRoutes);
 router.use(categoryRoutes);
 
 router.get('/all/purchases', [isLoggedIn, isAdmin], getAllPurchases);
-router.get('/download/purchases/:id', [isLoggedIn, isAdmin], downloadPurchases);
+// TODO: fix permissions
+router.get('/download/purchases/:id', [isLoggedIn], downloadPurchases);
 
 export default router;
