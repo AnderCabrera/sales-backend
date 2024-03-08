@@ -7,6 +7,7 @@ import {
   getProducts,
   searchProducts,
   getProductsByCategory,
+  getProductsSoldOut,
   addProduct,
   updateProduct,
   deleteProduct,
@@ -16,7 +17,13 @@ const router = express.Router();
 
 router.get('/products', isLoggedIn, getProducts);
 router.post('/search/products', isLoggedIn, searchProducts);
-router.get('/products/:categoryName', isLoggedIn, getProductsByCategory);
+router.get(
+  '/products/category/:categoryName',
+  isLoggedIn,
+  getProductsByCategory,
+);
+router.get('/products/sold-out', isLoggedIn, getProductsSoldOut);
+
 router.post('/add/product', [isLoggedIn, isAdmin], addProduct);
 router.put('/update/product/:productId', [isLoggedIn, isAdmin], updateProduct);
 router.delete(

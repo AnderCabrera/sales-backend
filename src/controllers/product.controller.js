@@ -58,6 +58,21 @@ export const getProductsByCategory = async (req, res) => {
   }
 };
 
+export const getProductsSoldOut = async (req, res) => {
+  try {
+    const products = await Product.find({ stock: 0 });
+
+    if (!products) {
+      return res.status(404).json({ message: 'Products not found' });
+    }
+
+    return res.json(products);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const addProduct = async (req, res) => {
   try {
     let { name, description, price, stock, category } = req.body;
