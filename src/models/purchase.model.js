@@ -10,8 +10,14 @@ const purchaseSchema = new mongoose.Schema(
     products: {
       type: [
         {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Product',
+          product: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product',
+          },
+          quantity: {
+            type: Number,
+            required: true,
+          },
         },
       ],
       required: true,

@@ -11,6 +11,8 @@ import {
   updatePassword,
   getCart,
   addTocart,
+  purchase,
+  removeFromCart,
 } from '../controllers/user.controller.js';
 
 const router = express.Router();
@@ -25,5 +27,7 @@ router.delete('/delete', isLoggedIn, deleteUser);
 // Cart
 router.get('/cart', isLoggedIn, getCart);
 router.post('/cart', isLoggedIn, addTocart);
+router.post('/cart/purchase', isLoggedIn, purchase);
+router.delete('/cart/delete/:productId', isLoggedIn, removeFromCart);
 
 export default router;
