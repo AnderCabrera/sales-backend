@@ -12,24 +12,16 @@ import {
 
 const router = express.Router();
 
-router.get(
-  '/categories',
-  /*[isLoggedIn, isAdmin],*/
-  getCategories,
-);
-router.post(
-  '/add/category',
-  /*[isLoggedIn, isAdmin],*/
-  addCategory,
-);
+router.get('/categories', isLoggedIn, getCategories);
+router.post('/add/category', [isLoggedIn, isAdmin], addCategory);
 router.put(
   '/update/category/:categoryId',
-  /*[isLoggedIn, isAdmin],*/
+  [isLoggedIn, isAdmin],
   updateCategory,
 );
 router.delete(
   '/delete/category/:categoryId',
-  /*[isLoggedIn, isAdmin],*/
+  [isLoggedIn, isAdmin],
   deleteCategory,
 );
 

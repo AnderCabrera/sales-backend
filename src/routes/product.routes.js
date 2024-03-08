@@ -12,20 +12,12 @@ import {
 
 const router = express.Router();
 
-router.get('/products', getProducts);
-router.post(
-  '/add/product',
-  /*[isLoggedIn, isAdmin],*/
-  addProduct,
-);
-router.put(
-  '/update/product/:productId',
-  /*[isLoggedIn, isAdmin],*/
-  updateProduct,
-);
+router.get('/products', isLoggedIn, getProducts);
+router.post('/add/product', [isLoggedIn, isAdmin], addProduct);
+router.put('/update/product/:productId', [isLoggedIn, isAdmin], updateProduct);
 router.delete(
   '/delete/product/:productId',
-  /*[isLoggedIn, isAdmin],*/
+  [isLoggedIn, isAdmin],
   deleteProduct,
 );
 

@@ -323,10 +323,7 @@ export const purchase = async (req, res) => {
     user.cart = [];
     await user.save();
 
-    // redirect to download report
     return res.redirect(`/admin/download/purchases/${purchase._id}`);
-
-    // return res.json({ message: 'Purchase completed' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
