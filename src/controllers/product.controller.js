@@ -11,6 +11,18 @@ export const getProducts = async (req, res) => {
   }
 };
 
+export const getProductsMostSold = async (req, res) => {
+  try {
+    const products = await Product.find({})
+      .populate('category', 'name')
+      .sort({ timesSold: -1 });
+
+    return res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const searchProducts = async (req, res) => {
   try {
     const { name } = req.body;

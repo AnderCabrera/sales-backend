@@ -5,6 +5,7 @@ import { isAdmin } from '../middlewares/isAdmin.js';
 // Controllers
 import {
   getProducts,
+  getProductsMostSold,
   searchProducts,
   getProductsByCategory,
   getProductsSoldOut,
@@ -16,6 +17,7 @@ import {
 const router = express.Router();
 
 router.get('/products', isLoggedIn, getProducts);
+router.get('/products/most-sold', isLoggedIn, getProductsMostSold);
 router.post('/search/products', isLoggedIn, searchProducts);
 router.get(
   '/products/category/:categoryName',
