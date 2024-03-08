@@ -77,20 +77,26 @@ export const deleteCategory = async (req, res) => {
       });
     }
 
-    const products = await Product.find({ category: categoryId }).populate(
-      'category',
-    );
+    const categoryIsGeneral = categoryExists.name === 'General';
 
-    if (products.length > 0) {
+    if (categoryIsGeneral) {
       return res.status(400).json({
-        message: 'Category is being used by a product',
-        products,
+        message: 'You cannot delete the General category',
       });
     }
 
+    const generalCategory = await Category.findOne({ name: 'General' });
+
+    await Product.updateMany(
+      { category: categoryId },
+      { category: generalCategory._id },
+    );
+
     await Category.findByIdAndDelete(categoryId);
 
-    return res.status(200).send('Category deleted succesfully');
+    return res.status(200).json({
+      message: 'Category deleted succesfully',
+    });
   } catch (error) {
     return res.status(500).send(error.message);
   }

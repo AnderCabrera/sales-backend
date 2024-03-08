@@ -55,6 +55,7 @@ connection()
 
     if (categories.length === 0) {
       const newCategories = [
+        { name: 'General' },
         { name: 'Electronics' },
         { name: 'Clothing' },
         { name: 'Sports' },
