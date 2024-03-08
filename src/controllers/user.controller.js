@@ -165,9 +165,23 @@ export const updatePassword = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    await User.findOneAndDelete({ _id: req.user._id });
+    const { password } = req.body;
 
-    return res.json({ message: 'Profile deleted' });
+    const user = await User.findOne({ _id: req.user._id });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    const isPasswordValid = await comparePassword(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid password' });
+    }
+
+    await User.deleteOne({ _id: req.user._id });
+
+    return res.json({ message: 'User deleted' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
