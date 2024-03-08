@@ -11,6 +11,31 @@ export const getProducts = async (req, res) => {
   }
 };
 
+export const searchProducts = async (req, res) => {
+  try {
+    const { name } = req.body;
+
+    if (!name) {
+      const products = await Product.find({}).populate('category', 'name -_id');
+
+      return res.json({
+        message: 'No search parameters provided, returning all products',
+        products,
+      });
+    }
+
+    const products = await Product.find({ name: { $regex: name } });
+
+    if (!products) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    return res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const addProduct = async (req, res) => {
   try {
     let { name, description, price, stock, category } = req.body;

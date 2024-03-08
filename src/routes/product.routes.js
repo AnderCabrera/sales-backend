@@ -5,6 +5,7 @@ import { isAdmin } from '../middlewares/isAdmin.js';
 // Controllers
 import {
   getProducts,
+  searchProducts,
   addProduct,
   updateProduct,
   deleteProduct,
@@ -13,6 +14,7 @@ import {
 const router = express.Router();
 
 router.get('/products', isLoggedIn, getProducts);
+router.post('/search/products', isLoggedIn, searchProducts);
 router.post('/add/product', [isLoggedIn, isAdmin], addProduct);
 router.put('/update/product/:productId', [isLoggedIn, isAdmin], updateProduct);
 router.delete(
