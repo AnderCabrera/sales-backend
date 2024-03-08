@@ -1,5 +1,7 @@
 import Purchase from '../models/purchase.model.js';
+import User from '../models/user.model.js';
 import fs from 'fs';
+import { hashPassword, comparePassword } from '../helpers/bcrypt.js';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';
 
@@ -93,6 +95,66 @@ export const downloadPurchases = async (req, res) => {
     res.json({ message: 'Downloaded' });
   } catch (error) {
     console.log(error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({ role: 'CLIENT' }, '-password');
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const modifyUserClient = async (req, res) => {
+  try {
+    const { name, lastName, username, password, role } = req.body;
+    const { id } = req.params;
+
+    const user = await User.findById(id);
+
+    const userWithSameUsername = await User.findOne({ username });
+
+    if (userWithSameUsername && userWithSameUsername._id.toString() !== id) {
+      return res
+        .status(400)
+        .json({ message: 'Username already exists, use another' });
+    }
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (user.role === 'ADMIN') {
+      return res.status(400).json({ message: 'Cannot modify an admin' });
+    }
+
+    if (password) {
+      user.password = await hashPassword(password);
+    }
+
+    if (name) {
+      user.name = name;
+    }
+
+    if (lastName) {
+      user.lastName = lastName;
+    }
+
+    if (username) {
+      user.username = username;
+    }
+
+    if (role) {
+      user.role = role;
+    }
+
+    await user.save();
+
+    res.json({ message: 'User modified' });
+  } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };

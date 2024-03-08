@@ -7,6 +7,8 @@ import { isLoggedIn } from '../middlewares/isLoggedIn.js';
 import {
   getAllPurchases,
   downloadPurchases,
+  modifyUserClient,
+  getAllUsers,
 } from '../controllers/admin.controller.js';
 
 const router = express.Router();
@@ -14,8 +16,10 @@ const router = express.Router();
 router.use(productRoutes);
 router.use(categoryRoutes);
 
+router.get('/all/users', [isLoggedIn, isAdmin], getAllUsers);
 router.get('/all/purchases', [isLoggedIn, isAdmin], getAllPurchases);
 // TODO: fix permissions
 router.get('/download/purchases/:id', [isLoggedIn], downloadPurchases);
+router.put('/modify/user/:id', [isLoggedIn, isAdmin], modifyUserClient);
 
 export default router;
