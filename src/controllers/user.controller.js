@@ -304,6 +304,11 @@ export const purchase = async (req, res) => {
       total += product.price * quantity;
 
       product.stock -= quantity;
+
+      const productUpdateTimesSold = await Product.findById(product._id);
+      productUpdateTimesSold.timesSold += quantity;
+
+      await productUpdateTimesSold.save();
       await product.save();
     }
 

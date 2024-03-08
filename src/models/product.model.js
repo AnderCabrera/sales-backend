@@ -20,6 +20,11 @@ const productSchema = new mongoose.Schema(
       min: 0,
       required: true,
     },
+    timesSold: {
+      type: Number,
+      default: 0,
+      required: false,
+    },
     category: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Category',

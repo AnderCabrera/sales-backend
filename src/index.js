@@ -77,6 +77,7 @@ connection()
           description: 'A laptop',
           price: 1000,
           stock: 10,
+          timeSold: 0,
           category: await Category.findOne({ name: 'Electronics' }).select(
             '_id',
           ),
@@ -86,6 +87,7 @@ connection()
           description: 'A t-shirt',
           price: 20,
           stock: 100,
+          timeSold: 0,
           category: await Category.findOne({ name: 'Clothing' }).select('_id'),
         },
         {
@@ -93,6 +95,7 @@ connection()
           description: 'A soccer ball',
           price: 50,
           stock: 50,
+          timeSold: 0,
           category: await Category.findOne({ name: 'Sports' }).select('_id'),
         },
         {
@@ -100,6 +103,7 @@ connection()
           description: 'A chair',
           price: 100,
           stock: 20,
+          timeSold: 0,
           category: await Category.findOne({ name: 'Home' }).select('_id'),
         },
       ];
