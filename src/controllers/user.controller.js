@@ -312,6 +312,7 @@ export const purchase = async (req, res) => {
       products: purchaseItems.map((item) => ({
         product: item.product,
         quantity: item.quantity,
+        subtotal: item.price * item.quantity,
       })),
       total,
     });
@@ -322,7 +323,10 @@ export const purchase = async (req, res) => {
     user.cart = [];
     await user.save();
 
-    return res.json({ message: 'Purchase completed' });
+    // redirect to download report
+    return res.redirect(`/admin/download/purchases/${purchase._id}`);
+
+    // return res.json({ message: 'Purchase completed' });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

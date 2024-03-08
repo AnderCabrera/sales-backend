@@ -18,6 +18,10 @@ const purchaseSchema = new mongoose.Schema(
             type: Number,
             required: true,
           },
+          subtotal: {
+            type: Number,
+            required: true,
+          },
         },
       ],
       required: true,
