@@ -1,0 +1,283 @@
+{
+	"info": {
+		"_postman_id": "b98839e1-8c63-409a-bfee-fe20ad9b5da0",
+		"name": "SalesSystem",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "13659864"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "register",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Ander",
+									"type": "text"
+								},
+								{
+									"key": "lastName",
+									"value": "Cabrera",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "acabrera",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{base-url}}/user/register"
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "acabrera",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{base-url}}/user/login"
+					},
+					"response": []
+				},
+				{
+					"name": "profile",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NWQ4ZDM3MDU5Nzg1ZWUxNjQ1OWU4NTMiLCJ1c2VybmFtZSI6ImFjYWJyZXJhIiwicm9sZSI6IkNMSUVOVCIsImlhdCI6MTcwODcwODc1MCwiZXhwIjoxNzExMzAwNzUwfQ.GEQU5-hLS9rTdZlG_aHs0W3ucNA8rS8xy64l1tEsv9U",
+								"type": "text"
+							}
+						],
+						"url": "{{base-url}}/user/profile"
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NWQ4ZDM3MDU5Nzg1ZWUxNjQ1OWU4NTMiLCJ1c2VybmFtZSI6ImFjYWJyZXJhIiwicm9sZSI6IkNMSUVOVCIsImlhdCI6MTcwODcwODc1MCwiZXhwIjoxNzExMzAwNzUwfQ.GEQU5-hLS9rTdZlG_aHs0W3ucNA8rS8xy64l1tEsv9U",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "name",
+									"value": "Ezequiel",
+									"type": "text"
+								},
+								{
+									"key": "lastname",
+									"value": "Cabrera",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "acabrera",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": "{{base-url}}/user/update"
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NWQ4ZDM3MDU5Nzg1ZWUxNjQ1OWU4NTMiLCJ1c2VybmFtZSI6ImFjYWJyZXJhIiwicm9sZSI6IkNMSUVOVCIsImlhdCI6MTcwODcwODc1MCwiZXhwIjoxNzExMzAwNzUwfQ.GEQU5-hLS9rTdZlG_aHs0W3ucNA8rS8xy64l1tEsv9U",
+								"type": "text"
+							}
+						],
+						"url": "{{base-url}}/user/delete"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "product",
+					"item": [
+						{
+							"name": "add",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "Keyboard",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "Keychron",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "200",
+											"type": "text"
+										},
+										{
+											"key": "stock",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "category",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": "{{base-url}}/admin/add/product"
+							},
+							"response": []
+						},
+						{
+							"name": "update",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "urlencoded",
+									"urlencoded": [
+										{
+											"key": "name",
+											"value": "Keyboard",
+											"type": "text"
+										},
+										{
+											"key": "description",
+											"value": "idk",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "100",
+											"type": "text"
+										},
+										{
+											"key": "stock",
+											"value": "20",
+											"type": "text"
+										},
+										{
+											"key": "category",
+											"value": "",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": "{{base-url}}/admin/update/product/Keyboard"
+							},
+							"response": []
+						},
+						{
+							"name": "delete",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": "{{base-url}}/admin/delete/product/Keyboard"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.globals.set(\"base-url\", \"http://localhost:3000\");"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
